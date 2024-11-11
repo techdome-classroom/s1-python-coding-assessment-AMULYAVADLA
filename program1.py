@@ -1,26 +1,55 @@
 class Solution:
-   def getTotalIsles(self, grid: list[list[str]]) -> int:
-      if not grid:
-         return 0
-      def dfs(r, c):
-         if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) or grid[r][c] == 'W':
-            return
-            # Mark the land cell as visited by turning it into water
-            grid[r][c] = 'W'
-            # Explore all four possible directions
-            dfs(r + 1, c)  # down
-            dfs(r - 1, c)  # up
-            dfs(r, c + 1)  # right
-            dfs(r, c - 1)  # left
-           
+   
+    def getTotalIsles(self, grid: list[list[str]]) -> int:
+    #    write your code here
+    
+        if not grid:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
         island_count = 0
-        for row in range(len(grid)):
-            for col in range(len(grid[0])):
-                if grid[row][col] == 'L':  # Found a new island
+
+        def dfs(r, c):
+            
+            if r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] == 'W':
+                return
+            
+            grid[r][c] = 'W'
+           
+            dfs(r - 1, c)  
+            dfs(r + 1, c) 
+            dfs(r, c - 1)  
+            dfs(r, c + 1)  
+
+       
+        for r in range(rows):
+            for c in range(cols):
+        
+                if grid[r][c] == 'L':
                     island_count += 1
-                    dfs(row, col)  # Visit all connected landmasses
+                    dfs(r, c) 
 
         return island_count
+
+
+solution = Solution()
+
+grid1 = [
+    ["L", "L", "L", "L", "W"],
+    ["L", "L", "W", "L", "W"],
+    ["L", "L", "W", "W", "W"],
+    ["W", "W", "W", "W", "W"]
+]
+
+grid2 = [
+    ["L", "L", "W", "W", "W"],
+    ["L", "L", "W", "W", "W"],
+    ["W", "W", "L", "W", "W"],
+    ["W", "W", "W", "L", "L"]
+]
+
+print(solution.getTotalIsles(grid1))  
+print(solution.getTotalIsles(grid2))
 
                     
       
